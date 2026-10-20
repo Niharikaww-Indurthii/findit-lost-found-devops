@@ -51,12 +51,17 @@ pipeline {
             }
         }
 
-        stage('Check Kubernetes Access') {
-            steps {
-                bat 'kubectl version'
-                bat 'kubectl get nodes'
-            }
-        }
+       
+stage('Check Kubernetes Access') {
+    steps {
+        bat '''
+            set KUBECONFIG=C:\\Users\\harik\\.kube\\config
+            kubectl config current-context
+            kubectl get nodes
+        '''
+    }
+}
+
 
         stage('Deploy to Kubernetes') {
             steps {
