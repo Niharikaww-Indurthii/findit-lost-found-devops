@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10233f">
+  <title>FindIt — Lost & Found Portal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="announcement"><span class="pulse"></span> Campus community · Helping lost things find their way home</div>
+  <header class="site-header">
+    <a class="brand" href="#"><span class="brand-mark">F</span><span>find<span class="brand-accent">it</span><small>LOST & FOUND</small></span></a>
+    <nav><a href="#browse">Browse items</a><a href="#how">How it works</a></nav>
+    <button class="btn btn-primary" id="openReportTop">＋ Report an item</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span>✦</span> A little help goes a long way</div>
+        <h1>Lost something?<br><em>Find your way</em> back to it.</h1>
+        <p class="hero-sub">A shared space to report lost belongings, reunite found items with their owners, and help your campus community.</p>
+        <div class="hero-actions"><button class="btn btn-primary btn-large" id="browseBtn">Find an item <span>↗</span></button><button class="btn btn-outline btn-large" id="openReportHero">＋ Report an item</button></div>
+        <div class="trust-row"><div class="avatar-stack"><span>R</span><span>A</span><span>S</span><span>+</span></div><span><strong>Community-powered</strong><br><small>Every report can make a difference.</small></span></div>
+      </div>
+      <div class="hero-art" aria-label="Illustration of lost belongings">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="floating-tag tag-top">✦ FOUND IT!</div>
+        <div class="illustration-card card-back"><span class="mini-icon">⌁</span><span>YOUR BELONGINGS</span></div>
+        <div class="illustration-card card-front"><div class="illustration-sun">✦</div><div class="bag">▰</div><strong>Lost & found.<br><em>Hope restored.</em></strong><small>Good things find their way back.</small></div>
+        <div class="floating-tag tag-bottom">♡ COMMUNITY CARE</div>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Item statistics">
+      <div class="stat"><span class="stat-icon blue">⌕</span><div><strong id="totalCount">0</strong><small>Total reports</small></div></div>
+      <div class="stat"><span class="stat-icon orange">?</span><div><strong id="lostCount">0</strong><small>Still lost</small></div></div>
+      <div class="stat"><span class="stat-icon green">✓</span><div><strong id="foundCount">0</strong><small>Found items</small></div></div>
+      <div class="stat"><span class="stat-icon purple">♡</span><div><strong id="todayCount">0</strong><small>Added today</small></div></div>
+    </section>
+
+    <section class="browse-section" id="browse">
+      <div class="section-heading"><div><div class="eyebrow">THE COMMUNITY BOARD</div><h2>Items looking for <em>their people.</em></h2><p>Search reports or browse what the community has shared.</p></div><button class="text-button" id="clearFilters">Reset filters ↺</button></div>
+      <div class="toolbar">
+        <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search item, category or location…" autocomplete="off"><kbd>⌘ K</kbd></label>
+        <select id="categoryFilter" aria-label="Filter by category"><option value="All">All categories</option><option>Electronics</option><option>Accessories</option><option>Cards & IDs</option><option>Bags</option><option>Books</option><option>Other</option></select>
+      </div>
+      <div class="filter-row"><div class="filter-tabs" id="statusTabs"><button class="active" data-status="All">All items <span id="allTabCount">0</span></button><button data-status="Lost">Lost <span id="lostTabCount">0</span></button><button data-status="Found">Found <span id="foundTabCount">0</span></button></div><span class="results-label" id="resultsLabel">Showing items</span></div>
+      <div class="item-grid" id="itemGrid"></div>
+      <div class="empty-state hidden" id="emptyState"><div class="empty-emoji">⌕</div><h3>No matching items</h3><p>Try another search, or report an item so the community can help.</p><button class="btn btn-primary" id="emptyReportBtn">＋ Report an item</button></div>
+    </section>
+
+    <section class="how-section" id="how">
+      <div class="eyebrow">SIMPLE AS ONE, TWO, THREE</div><h2>Small steps. <em>Happy reunions.</em></h2>
+      <div class="steps"><article><span class="step-number">01</span><div class="step-icon">⌕</div><h3>Search the board</h3><p>Look through recent lost and found reports using search and category filters.</p></article><article><span class="step-number">02</span><div class="step-icon">＋</div><h3>Share a report</h3><p>Add the item name, status, location and a few helpful details.</p></article><article><span class="step-number">03</span><div class="step-icon">♡</div><h3>Help reunite</h3><p>Use the report details to follow up safely and return belongings to their owner.</p></article></div>
+    </section>
+    <section class="bottom-cta"><div><div class="eyebrow">BE SOMEONE'S GOOD NEWS</div><h2>Found something? <em>Make someone's day.</em></h2><p>One quick report could be the reason someone gets their favourite thing back.</p></div><button class="btn btn-light btn-large" id="openReportBottom">Report an item <span>↗</span></button></section>
+  </main>
+
+  <footer><a class="brand footer-brand" href="#"><span class="brand-mark">F</span><span>find<span class="brand-accent">it</span><small>LOST & FOUND</small></span></a><span>Made for a more thoughtful campus. <span class="footer-heart">♥</span></span><span class="footer-note">Demo portal · Reports stored in this browser</span></footer>
+
+  <div class="modal-backdrop hidden" id="reportModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <button class="modal-close" id="closeModal" aria-label="Close">×</button>
+      <div class="eyebrow">HELP THE COMMUNITY</div><h2 id="modalTitle">Report an <em>item.</em></h2><p class="modal-intro">Share a few details so the right person can recognise it.</p>
+      <form id="reportForm">
+        <div class="form-row"><label>Report type<select id="itemStatus" required><option value="Lost">I lost something</option><option value="Found">I found something</option></select></label><label>Category<select id="itemCategory" required><option>Electronics</option><option>Accessories</option><option>Cards & IDs</option><option>Bags</option><option>Books</option><option>Other</option></select></label></div>
+        <label>Item name<input id="itemName" maxlength="70" placeholder="e.g. Blue water bottle" required></label>
+        <label>Last seen / found at<input id="itemLocation" maxlength="100" placeholder="e.g. Library, second floor" required></label>
+        <label>Date<input id="itemDate" type="date" required></label>
+        <label>Helpful details<textarea id="itemDescription" maxlength="300" rows="3" placeholder="Colour, brand, distinguishing marks…" required></textarea></label>
+        <div class="form-hint">Please don't include passwords, full ID numbers or other sensitive information.</div>
+        <button class="btn btn-primary btn-large submit-btn" type="submit">Publish report <span>↗</span></button>
+      </form>
+    </div>
+  </div>
+  <div class="toast hidden" id="toast" role="status"></div>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
