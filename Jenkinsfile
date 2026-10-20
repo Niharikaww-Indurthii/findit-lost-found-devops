@@ -52,15 +52,20 @@ pipeline {
         }
 
        
+
 stage('Check Kubernetes Access') {
     steps {
         bat '''
             set KUBECONFIG=C:\\Users\\harik\\.kube\\config
             kubectl config current-context
+            if errorlevel 1 exit /b 1
+
             kubectl get nodes
+            if errorlevel 1 exit /b 1
         '''
     }
 }
+
 
 
        
@@ -68,6 +73,7 @@ stage('Deploy to Kubernetes') {
     steps {
         bat '''
             set KUBECONFIG=C:\\Users\\harik\\.kube\\config
+
             kubectl apply --validate=false -f deployment.yaml
             if errorlevel 1 exit /b 1
 
@@ -78,18 +84,33 @@ stage('Deploy to Kubernetes') {
             if errorlevel 1 exit /b 1
 
             kubectl rollout status deployment/findit-deployment --timeout=180s
+            if errorlevel 1 exit /b 1
         '''
     }
 }
 
 
-        stage('Verify Deployment') {
-            steps {
-                bat 'kubectl get deployments'
-                bat 'kubectl get pods'
-                bat 'kubectl get services'
-            }
-        }
+
+        
+
+stage('Verify Deployment') {
+    steps {
+        bat '''
+            set KUBECONFIG=C:\\Users\\harik\\.kube\\config
+
+            kubectl get deployments
+            if errorlevel 1 exit /b 1
+
+            kubectl get pods
+            if errorlevel 1 exit /b 1
+
+            kubectl get services
+            if errorlevel 1 exit /b 1
+        '''
+    }
+}
+
+
     }
 
     post {
