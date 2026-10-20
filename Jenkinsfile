@@ -63,16 +63,25 @@ stage('Check Kubernetes Access') {
 }
 
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                bat 'kubectl apply -f deployment.yaml'
-                bat 'kubectl apply -f service.yaml'
+       
+stage('Deploy to Kubernetes') {
+    steps {
+        bat '''
+            set KUBECONFIG=C:\\Users\\harik\\.kube\\config
+            kubectl apply --validate=false -f deployment.yaml
+            if errorlevel 1 exit /b 1
 
-                bat 'kubectl set image deployment/findit-deployment findit=%DOCKER_IMAGE%:%BUILD_NUMBER%'
+            kubectl apply --validate=false -f service.yaml
+            if errorlevel 1 exit /b 1
 
-                bat 'kubectl rollout status deployment/findit-deployment --timeout=180s'
-            }
-        }
+            kubectl set image deployment/findit-deployment findit=%DOCKER_IMAGE%:%BUILD_NUMBER%
+            if errorlevel 1 exit /b 1
+
+            kubectl rollout status deployment/findit-deployment --timeout=180s
+        '''
+    }
+}
+
 
         stage('Verify Deployment') {
             steps {
