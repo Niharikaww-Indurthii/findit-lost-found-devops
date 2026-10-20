@@ -1,7 +1,10 @@
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: findit-deployment
+  labels:
+    app: findit
 spec:
   replicas: 2
   selector:
@@ -14,26 +17,27 @@ spec:
     spec:
       containers:
         - name: findit
-          image: YOUR_DOCKERHUB_USERNAME/findit-lost-found:latest
+          image: nihaaaa34/findit-lost-found:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 5000
+            - name: http
+              containerPort: 5000
           readinessProbe:
             httpGet:
               path: /health
               port: 5000
-            initialDelaySeconds: 3
+            initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /health
               port: 5000
-            initialDelaySeconds: 10
+            initialDelaySeconds: 15
             periodSeconds: 20
           resources:
             requests:
-              cpu: "50m"
-              memory: "64Mi"
+              cpu: 100m
+              memory: 128Mi
             limits:
-              cpu: "300m"
-              memory: "256Mi"
+              cpu: 500m
+              memory: 256Mi
