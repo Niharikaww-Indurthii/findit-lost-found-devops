@@ -17,12 +17,14 @@ pipeline {
             }
         }
 
-        stage('Test Application') {
-            steps {
-                bat 'py -m pip install -r requirements.txt'
-                bat 'py -m unittest -v'
-            }
-        }
+      
+stage('Test Application') {
+    steps {
+        bat '"C:\\Users\\harik\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe" -m pip install -r requirements.txt'
+        bat '"C:\\Users\\harik\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe" -m unittest -v'
+    }
+}
+
 
         stage('Build Docker Image') {
             steps {
