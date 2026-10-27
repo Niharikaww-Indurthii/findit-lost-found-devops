@@ -16,11 +16,11 @@ pipeline {
         }
 
         stage('Test Application') {
-            steps {
-                bat '"%PYTHON%" -m pip install -r requirements.txt'
-                bat '"%PYTHON%" -m unittest -v'
-            }
-        }
+    steps {
+        bat '"%PYTHON%" -m pip install -r requirements.txt'
+        bat '"%PYTHON%" -m unittest -v test_app test_selenium'
+    }
+}
 
         stage('Build Docker Image') {
             steps {
